@@ -241,7 +241,7 @@
   <label>QRS Duration:</label>
   <select id="qrs">
     <option value="">--Select--</option>
-    <option value="<0.12">Less than 0.12 sec</option>
+    <option value="<0.12">Less than 0.12 sec (Normal)</option>
     <option value=">0.12">Greater than 0.12 sec</option>
     <option value="chaotic">Chaotic</option>
     <option value="none">None</option>
@@ -256,7 +256,6 @@
 
 <label>ST Elevation Leads (comma-separated):</label>
   <input type="text" id="stLeads" placeholder="e.g. II, III, aVF" />
-
   <div style="width: 100%; max-width: 500px;">
 <label for="tWaveLeads">T-Wave Inversions Seen In (comma-separated):</label>
 <input type="text" id="tWaveLeads" placeholder="e.g. V1, V2, V3, V4" style="width: 100%;" />
@@ -274,12 +273,10 @@
   <input type="text" id="stDepression" placeholder="e.g. V1, V2, V3" />
   </div>
 </details>
-
 <!-- Rhythm Lookup Modal Trigger -->
 <button onclick="document.getElementById('rhythmModal').style.display='block'" style="margin-top: 20px; background-color: #6c757d; color: white; padding: 10px; border: none; border-radius: 4px;">
   Lookup Rhythm & Treatment
 </button>
-
 <!-- Modal Structure -->
 <div id="rhythmModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color: rgba(0,0,0,0.6); z-index:999; justify-content:center; align-items:center;">
   <div style="background:white; padding:20px; border-radius:8px; max-width:500px; width:90%; margin:auto; position:relative;">
@@ -418,7 +415,6 @@
       if (hasDep("I") && hasDep("AVL")) {
         output += `<h3>Reciprocal Change Suggestion</h3><p>ST depression in I and aVL. Reciprocal to Inferior MI.</p>`;
       }
-
       
       // Bundle Branch Block interpretation
       if (document.getElementById('rbbb').checked) {
