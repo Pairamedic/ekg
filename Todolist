@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily To-Do with Completion Marks</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    header {
+      background: #1e1e1e;
+      padding: 10px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.5em;
+      color: #0099cc;
+    }
+    .date-nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #1e1e1e;
+      padding: 5px;
+      position: sticky;
+      top: 50px;
+      z-index: 10;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .date-nav button {
+      background: #0099cc;
+      border: none;
+      padding: 5px 10px;
+      margin: 0 5px;
+      border-radius: 4px;
+      cursor: pointer;
+      color: #000;
+    }
+    .date-nav input[type="date"] {
+      background: #2c2c2c;
+      border: none;
+      color: #fff;
+      padding: 5px;
+      border-radius: 4px;
+    }
+    .task-input {
+      display: flex;
+      padding: 10px;
+      background: #1e1e1e;
+      position: sticky;
+      top: 95px;
+      z-index: 10;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .task-input input, .task-input input[type="time"] {
+      padding: 12px;
+      border: none;
+      background: #2c2c2c;
+      color: #ffffff;
+      border-radius: 4px;
+      font-size: 1em;
+    }
+    .task-input input[type="text"] { flex: 2; min-width: 60%; }
+    .task-input input[type="time"] { flex: 1; min-width: 30%; }
+    .task-input button {
+      padding: 12px 20px;
+      border: none;
+      background: #0099cc;
+      color: #000;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1em;
+      flex: 0 0 auto;
+    }
+    .task-input button:hover { background: #0077aa; }
+    .task-list { flex: 1; overflow-y: auto; padding: 10px; }
+    .task-card {
+      background: #1e1e1e;
+      margin-bottom: 10px;
+      padding: 15px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    }
+    .task-card.completed .task-text {
+      text-decoration: line-through;
+      color: #888;
+    }
+    .task-text { flex: 1; font-size: 1.1em; }
+    .timestamp { display: block; font-size: 0.75em; color: #bbb; }
+    .task-buttons button {
+      margin-left: 5px;
+      padding: 6px 10px;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 0.85em;
+    }
+    .complete-btn { background: #0077aa; color: #fff; }
+    .delete-btn { background: #ff3333; color: #fff; }
+    footer {
+      padding: 10px;
+      text-align: center;
+      background: #1e1e1e;
+      position: sticky;
+      bottom: 0;
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .export-btn, .pending-btn, .completed-btn {
+      padding: 10px 15px;
+      background: #0099cc;
+      color: #000;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+    .export-btn:hover, .pending-btn:hover, .completed-btn:hover { background: #0077aa; }
+
+    /* Modal shared */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+    .modal {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 10px;
+      width: min(900px, 92vw);
+      max-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid #2a2a2a;
+    }
+    .modal-title { margin: 0; font-size: 1.1rem; color: #66c2e3; }
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    .modal-body { padding: 8px; overflow: auto; }
+
+    .pending-item, .completed-item {
+      display: grid;
+      grid-template-columns: 120px 80px 1fr auto;
+      gap: 8px;
+      align-items: center;
+      padding: 10px;
+      border-bottom: 1px solid #2a2a2a;
+    }
+    .completed-item { grid-template-columns: 120px 80px 1fr 170px auto; }
+    .date, .time, .done-time { color: #bbb; font-size: 0.9rem; }
+    .pending-actions button, .completed-actions button {
+      margin-left: 6px;
+      padding: 6px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.85em;
+    }
+    .goto-btn { background: #2f8fb3; color: #fff; }
+    .done-btn { background: #28a745; color: #fff; }
+    .undo-btn { background: #a86bd5; color: #fff; }
+    .empty-state { text-align: center; padding: 24px; color: #aaa; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Daily To-Do ✅</h1>
+  </header>
+
+  <div class="date-nav">
+    <button onclick="changeDay(-1)">&#8592; Prev</button>
+    <input type="date" id="datePicker" onchange="selectDate()">
+    <button onclick="changeDay(1)">Next &#8594;</button>
+  </div>
+
+  <div class="task-input">
+    <input type="text" id="taskInput" placeholder="Add a new task...">
+    <input type="time" id="taskTime">
+    <button onclick="addTask()">Add</button>
+  </div>
+
+  <div class="task-list" id="taskList"></div>
+
+  <footer>
+    <button class="pending-btn" onclick="openPending()">View Pending</button>
+    <button class="completed-btn" onclick="openCompleted()">View Completed</button>
+    <button class="export-btn" onclick="exportTasks()">Export All Tasks</button>
+  </footer>
+
+  <!-- Pending Modal -->
+  <div class="modal-backdrop" id="pendingBackdrop" onclick="backdropClick(event,'pending')">
+    <div class="modal" role="dialog" aria-labelledby="pendingTitle" aria-modal="true">
+      <div class="modal-header">
+        <h2 class="modal-title" id="pendingTitle">All Pending Tasks (by Date/Time)</h2>
+        <button class="modal-close" aria-label="Close" onclick="closePending()">✕</button>
+      </div>
+      <div class="modal-body" id="pendingBody"></div>
+    </div>
+  </div>
+
+  <!-- Completed Modal -->
+  <div class="modal-backdrop" id="completedBackdrop" onclick="backdropClick(event,'completed')">
+    <div class="modal" role="dialog" aria-labelledby="completedTitle" aria-modal="true">
+      <div class="modal-header">
+        <h2 class="modal-title" id="completedTitle">Completed Tasks</h2>
+        <button class="modal-close" aria-label="Close" onclick="closeCompleted()">✕</button>
+      </div>
+      <div class="modal-body" id="completedBody"></div>
+    </div>
+  </div>
+
+  <script>
+    const taskInput = document.getElementById('taskInput');
+    const taskTime = document.getElementById('taskTime');
+    const taskList = document.getElementById('taskList');
+    const datePicker = document.getElementById('datePicker');
+
+    const pendingBackdrop = document.getElementById('pendingBackdrop');
+    const pendingBody = document.getElementById('pendingBody');
+
+    const completedBackdrop = document.getElementById('completedBackdrop');
+    const completedBody = document.getElementById('completedBody');
+
+    let currentDate = new Date();
+    let allTasks = JSON.parse(localStorage.getItem('tasks_checkmark')) || {};
+
+    function formatDate(date) { return date.toISOString().split('T')[0]; }
+    function formatTimeHM(d) {
+      try {
+        const dt = new Date(d);
+        if (isNaN(dt)) return '—';
+        const hh = String(dt.getHours()).padStart(2,'0');
+        const mm = String(dt.getMinutes()).padStart(2,'0');
+        return `${hh}:${mm}`;
+      } catch { return '—'; }
+    }
+
+    function updateDateDisplay() {
+      datePicker.value = formatDate(currentDate);
+      renderTasks();
+    }
+
+    function selectDate() {
+      const val = datePicker.value;
+      if (val) currentDate = new Date(val + 'T00:00:00');
+      renderTasks();
+    }
+
+    function changeDay(offset) {
+      currentDate.setDate(currentDate.getDate() + offset);
+      updateDateDisplay();
+    }
+
+    function addTask() {
+      const text = taskInput.value.trim();
+      if (!text) return;
+      const timeValue = taskTime.value ? taskTime.value : null;
+      const dateKey = formatDate(currentDate);
+      if (!allTasks[dateKey]) allTasks[dateKey] = [];
+      allTasks[dateKey].push({ text, time: timeValue, completed: false });
+      taskInput.value = '';
+      taskTime.value = '';
+      saveTasks();
+      renderTasks();
+    }
+
+    function toggleTask(index) {
+      const dateKey = formatDate(currentDate);
+      const task = allTasks[dateKey][index];
+      task.completed = !task.completed;
+      if (task.completed) {
+        task.completedAt = new Date().toISOString();
+        alert(`✅ Task "${task.text}" completed!`);
+      } else {
+        delete task.completedAt;
+      }
+      saveTasks();
+      renderTasks();
+    }
+
+    function deleteTask(index) {
+      const dateKey = formatDate(currentDate);
+      allTasks[dateKey].splice(index, 1);
+      saveTasks();
+      renderTasks();
+    }
+
+    function saveTasks() {
+      localStorage.setItem('tasks_checkmark', JSON.stringify(allTasks));
+    }
+
+    function renderTasks() {
+      const dateKey = formatDate(currentDate);
+      const tasks = allTasks[dateKey] || [];
+      taskList.innerHTML = '';
+      tasks.forEach((task, index) => {
+        const card = document.createElement('div');
+        card.className = 'task-card' + (task.completed ? ' completed' : '');
+        const displayText = task.completed ? `✅ ${task.text}` : task.text;
+        const timeDisplay = task.time ? `<span class="timestamp">⏰ ${task.time}</span>` : '';
+        card.innerHTML = `
+          <div class="task-text">
+            ${displayText}
+            ${timeDisplay}
+          </div>
+          <div class="task-buttons">
+            <button class="complete-btn" onclick="toggleTask(${index})">${task.completed ? 'Undo' : 'Done'}</button>
+            <button class="delete-btn" onclick="deleteTask(${index})">Delete</button>
+          </div>
+        `;
+        taskList.appendChild(card);
+      });
+    }
+
+    function exportTasks() {
+      const blob = new Blob([JSON.stringify(allTasks, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `todo_checkmark_export_${new Date().toISOString().split('T')[0]}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    /* ---------- Shared helpers ---------- */
+    function normalizedTimeForSort(t) {
+      if (!t) return '24:00'; // push undated times after timed ones for that day
+      return t;
+    }
+    function escapeHtml(s) {
+      return s.replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+    function gotoDate(dateKey) {
+      currentDate = new Date(dateKey + 'T00:00:00');
+      updateDateDisplay();
+      closePending();
+      closeCompleted();
+    }
+    function backdropClick(e, which) {
+      const el = which === 'pending' ? pendingBackdrop : completedBackdrop;
+      if (e.target === el) (which === 'pending' ? closePending : closeCompleted)();
+    }
+
+    /* ---------- Pending Modal Logic ---------- */
+    function gatherPending() {
+      const items = [];
+      for (const dateKey of Object.keys(allTasks)) {
+        const list = allTasks[dateKey] || [];
+        list.forEach((task, idx) => {
+          if (!task.completed) {
+            items.push({ date: dateKey, time: task.time || null, text: task.text, index: idx });
+          }
+        });
+      }
+      items.sort((a, b) => {
+        if (a.date !== b.date) return a.date.localeCompare(b.date);
+        return normalizedTimeForSort(a.time).localeCompare(normalizedTimeForSort(b.time));
+      });
+      return items;
+    }
+
+    function renderPending() {
+      const items = gatherPending();
+      pendingBody.innerHTML = '';
+      if (items.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'empty-state';
+        empty.textContent = '🎉 No pending tasks. Nice work!';
+        pendingBody.appendChild(empty);
+        return;
+      }
+      items.forEach((it) => {
+        const row = document.createElement('div');
+        row.className = 'pending-item';
+        row.innerHTML = `
+          <div class="date">📅 ${it.date}</div>
+          <div class="time">${it.time ? '⏰ ' + it.time : '—'}</div>
+          <div class="text">${escapeHtml(it.text)}</div>
+          <div class="pending-actions">
+            <button class="goto-btn" onclick="gotoDate('${it.date}')">Go to Day</button>
+            <button class="done-btn" onclick="markPendingDone('${it.date}', ${it.index})">Mark Done</button>
+          </div>
+        `;
+        pendingBody.appendChild(row);
+      });
+    }
+
+    function openPending() {
+      renderPending();
+      pendingBackdrop.style.display = 'flex';
+      setTimeout(() => pendingBackdrop.querySelector('.modal-close')?.focus(), 0);
+      document.addEventListener('keydown', escClosePending);
+    }
+    function closePending() {
+      pendingBackdrop.style.display = 'none';
+      document.removeEventListener('keydown', escClosePending);
+    }
+    function escClosePending(e) { if (e.key === 'Escape') closePending(); }
+    function markPendingDone(dateKey, indexInDay) {
+      if (!allTasks[dateKey] || !allTasks[dateKey][indexInDay]) return;
+      allTasks[dateKey][indexInDay].completed = true;
+      allTasks[dateKey][indexInDay].completedAt = new Date().toISOString();
+      saveTasks();
+      renderPending();
+      if (formatDate(currentDate) === dateKey) renderTasks();
+    }
+
+    /* ---------- Completed Modal Logic ---------- */
+    function gatherCompleted() {
+      const items = [];
+      for (const dateKey of Object.keys(allTasks)) {
+        const list = allTasks[dateKey] || [];
+        list.forEach((task, idx) => {
+          if (task.completed) {
+            items.push({
+              date: dateKey,
+              time: task.time || null,
+              text: task.text,
+              index: idx,
+              completedAt: task.completedAt || null
+            });
+          }
+        });
+      }
+      // Sort by date then time (same as pending)
+      items.sort((a, b) => {
+        if (a.date !== b.date) return a.date.localeCompare(b.date);
+        return normalizedTimeForSort(a.time).localeCompare(normalizedTimeForSort(b.time));
+      });
+      return items;
+    }
+
+    function renderCompleted() {
+      const items = gatherCompleted();
+      completedBody.innerHTML = '';
+      if (items.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'empty-state';
+        empty.textContent = 'No completed tasks yet.';
+        completedBody.appendChild(empty);
+        return;
+      }
+      items.forEach((it) => {
+        const row = document.createElement('div');
+        row.className = 'completed-item';
+        row.innerHTML = `
+          <div class="date">📅 ${it.date}</div>
+          <div class="time">${it.time ? '⏰ ' + it.time : '—'}</div>
+          <div class="text">✅ ${escapeHtml(it.text)}</div>
+          <div class="done-time">✔️ Done at: ${it.completedAt ? formatTimeHM(it.completedAt) : '—'}</div>
+          <div class="completed-actions">
+            <button class="goto-btn" onclick="gotoDate('${it.date}')">Go to Day</button>
+            <button class="undo-btn" onclick="undoCompleted('${it.date}', ${it.index})">Undo</button>
+          </div>
+        `;
+        completedBody.appendChild(row);
+      });
+    }
+
+    function openCompleted() {
+      renderCompleted();
+      completedBackdrop.style.display = 'flex';
+      setTimeout(() => completedBackdrop.querySelector('.modal-close')?.focus(), 0);
+      document.addEventListener('keydown', escCloseCompleted);
+    }
+    function closeCompleted() {
+      completedBackdrop.style.display = 'none';
+      document.removeEventListener('keydown', escCloseCompleted);
+    }
+    function escCloseCompleted(e) { if (e.key === 'Escape') closeCompleted(); }
+
+    function undoCompleted(dateKey, indexInDay) {
+      if (!allTasks[dateKey] || !allTasks[dateKey][indexInDay]) return;
+      allTasks[dateKey][indexInDay].completed = false;
+      delete allTasks[dateKey][indexInDay].completedAt;
+      saveTasks();
+      renderCompleted();
+      if (formatDate(currentDate) === dateKey) renderTasks();
+    }
+
+    // Initialize
+    updateDateDisplay();
+  </script>
+</body>
+</html>
