@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EMS Documentation Masterclass by Elias Caldwell, NRP</title>
+  <meta name="description" content="Single‑file, keyboard‑navigable slide deck for teaching EMS documentation." />
+  <style>
+    :root{
+      --bg:#0b1220; /* deep navy */
+      --panel:#111a2e; /* card */
+      --muted:#9fb1d9;
+      --text:#e8efff;
+      --accent:#21d4b4; /* teal */
+      --accent-2:#66a6ff; /* blue */
+      --danger:#ff7a7a;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    html,body{height:100%;}
+    body{
+      margin:0;
+      background: radial-gradient(1200px 800px at 80% -10%, rgba(102,166,255,.18), transparent 60%),
+                  radial-gradient(1000px 700px at -10% 90%, rgba(33,212,180,.12), transparent 60%),
+                  var(--bg);
+      color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      line-height:1.35;
+      letter-spacing:.2px;
+      overflow:hidden;
+    }
+    /* Layout */
+    .deck{position:relative; height:100dvh; width:100%;}
+    .slide{position:absolute; inset:0; display:grid; grid-template-rows: 1fr auto; opacity:0; transform: translate3d(0,10px,0) scale(.98); transition: opacity .35s ease, transform .35s ease;}
+    .slide.active{opacity:1; transform: none;}
+    .stage{ display:flex; align-items:center; justify-content:center; padding:6vh 7vw; }
+    .card{ max-width:1200px; width:100%; background: linear-gradient(180deg, rgba(17,26,46,.85), rgba(17,26,46,.7)); border:1px solid rgba(159,177,217,.18); box-shadow: var(--shadow); border-radius:24px; padding:min(5vh,56px) min(6vw,56px);} 
+    h1,h2,h3{margin:0 0 .35em 0;}
+    h1{font-size: clamp(42px, 6vw, 72px); line-height:1.05;}
+    h2{font-size: clamp(28px, 4vw, 42px);}
+    h3{font-size: clamp(20px, 2.4vw, 28px); color:var(--muted); font-weight:600;}
+    p,li{font-size: clamp(18px, 1.6vw, 22px); color:#d9e5ff;}
+    ul{margin:.6em 0 0 1.2em; padding:0;}
+    .kicker{color:var(--accent); font-weight:700; letter-spacing:.3px; text-transform:uppercase; font-size: clamp(12px, 1.2vw, 14px);}
+    .row{display:grid; gap:24px; grid-template-columns: repeat(12, 1fr);} 
+    .col-6{grid-column: span 6;}
+    .col-4{grid-column: span 4;}
+    .col-8{grid-column: span 8;}
+    .badge{display:inline-flex; align-items:center; gap:.5em; padding:.45em .8em; border-radius:999px; border:1px solid rgba(159,177,217,.25); background:rgba(17,26,46,.6); font-size:.9em;}
+    .check{width:1em; height:1em; border-radius:2px; border:2px solid var(--accent); display:inline-block;}
+    .muted{color:var(--muted)}
+    .accent{color:var(--accent)}
+    .accent2{color:var(--accent-2)}
+
+    /* Callouts */
+    .callout{border-left:4px solid var(--accent); padding-left:1em;}
+    .bad{border-left:4px solid var(--danger);} 
+    .good{border-left:4px solid var(--accent);} 
+    .grid-tiles{display:grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap:18px; margin-top:12px}
+    .tile{background:rgba(255,255,255,.03); border:1px solid rgba(159,177,217,.18); border-radius:16px; padding:16px 18px}
+
+    /* Footer + Controls */
+    .footer{display:flex; justify-content:space-between; align-items:center; padding:12px 22px; color:var(--muted)}
+    .progress{position:relative; flex:1; height:6px; margin:0 14px; background:rgba(255,255,255,.08); border-radius:999px; overflow:hidden}
+    .progress>span{position:absolute; inset:0 100% 0 0; background:linear-gradient(90deg,var(--accent), var(--accent-2));}
+    .controls{display:flex; gap:8px}
+    .btn{background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); color:var(--text); padding:8px 12px; border-radius:12px; cursor:pointer; user-select:none}
+    .btn:active{transform: translateY(1px)}
+
+    /* Utility */
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size:.95em}
+    .small{font-size:.9em}
+    .spacer{height:8px}
+
+    /* Print: each slide per page */
+    @media print{
+      body{background:white; color:#111; overflow:visible}
+      .deck, .slide{position:static; height:auto}
+      .slide{page-break-after:always; opacity:1; transform:none}
+      .card{box-shadow:none; border:1px solid #ddd}
+      .footer, .controls{display:none!important}
+      .kicker, .muted{color:#333}
+    }
+  </style>
+</head>
+<body>
+  <div class="deck" id="deck">
+
+    <!-- Slide 1: Title -->
+    <section class="slide active" data-title="Title">
+      <div class="stage">
+        <div class="card">
+          <div class="badge"><span class="check"></span><span>Instructor Toolkit</span></div>
+          <h1>EMS Documentation <span class="accent">Masterclass</span></h1>
+          <h3>Better Charts, Less Chaos: Protecting Patients, Providers, and Your Sanity</h3>
+          <p class="muted small">Use ⬅️ ➡️, Space, or click the on‑screen controls. Print for handouts.</p>
+        </div>
+      </div>
+      <div class="footer">
+        <span>EMS Documentation</span>
+        <div class="progress"><span id="progressBar"></span></div>
+        <div class="controls">
+          <button class="btn" id="prevBtn" title="Previous (←)">◀</button>
+          <button class="btn" id="nextBtn" title="Next (→ or Space)">▶</button>
+          <button class="btn" id="overviewBtn" title="Overview (O)">O</button>
+          <button class="btn" id="blackoutBtn" title="Blackout (B)">B</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 2: Why it matters -->
+    <section class="slide" data-title="Why it matters">
+      <div class="stage">
+        <div class="card">
+          <span class="kicker">Why it matters</span>
+          <h2>Good documentation is <em>clinical care</em>, legal armor, and QA fuel.</h2>
+          <ul>
+            <li>Continuity: ED, hospitalists, coders rely on your story to carry care forward.</li>
+            <li>Medical‑legal: “If it isn’t documented, it didn’t happen.” Your documentation is your memory.</li>
+            <li>Quality & billing: Accurate elements = appropriate reimbursement & metrics.</li>
+            <li>Professionalism: Clear writing reflects clear thinking under stress.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer"><span>Impact</span><div class="progress"><span></span></div><div class="controls"></div></div>
+    </section>
+
+    <!-- Slide 3: Anatomy of a PCR -->
+    <section class="slide" data-title="Anatomy">
+      <div class="stage">
+        <div class="card">
+          <span class="kicker">Anatomy of a PCR</span>
+          <div class="row">
+            <div class="col-6">
+              <h2>What must be present—every time</h2>
+              <ul>
+                <li>Dispatch & scene context (who called, where, safety, environment).</li>
+                <li>Initial impression & chief complaint in patient’s words.</li>
+                <li>Assessment: pertinent positives/negatives, vitals trends, pain scale.</li>
+                <li>Treatments: what, when, dose/route, response, complications.</li>
+                <li>Medical decision making: <em>why</em> you did or didn’t do something.</li>
+                <li>Disposition: handoff, receiving staff, condition on arrival, report given.</li>
+              </ul>
+            </div>
+            <div class="col-6">
+              <h2>Pro tips</h2>
+              <ul>
+                <li>Use time stamps for key events; trends beat single data points.</li>
+                <li>Document informed refusals with capacity, risks explained, alternatives.</li>
+                <li>Redact identifiers in teaching examples; protect PHI.</li>
+                <li>Write for a smart non‑EMS reader (juror, nurse, coder).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer"><span>Anatomy</span><div class="progress"><span></span></div><div class="controls"></div></div>
+    </section>
+
+    <!-- Slide 4: Frameworks -->
+    <section class="slide" data-title="Frameworks">
+      <div class="stage">
+        <div class="card">
+          <span class="kicker">Structure</span>
+          <h2>Pick a framework and be consistent</h2>
+          <div class="grid-tiles">
+            <div class="tile">
+              <h3>SOAP</h3>
+              <ul>
+                <li><strong>S</strong>ubjective: patient story & chief complaint.</li>
+                <li><strong>O</strong>bjective: exam, vitals, monitor findings.</li>
+                <li><strong>A</strong>ssessment: differential & working impression.</li>
+                <li><strong>P</strong>lan: interventions, transport, response.</li>
+              </ul>
+            </div>
+            <div class="tile">
+              <h3>CHART</h3>
+              <ul>
+                <li><strong>C</strong>hief complaint</li>
+                <li><strong>H</strong>istory (SAMPLE/OPQRST)</li>
+                <li><strong>A</strong>ssessment</li>
+                <li><strong>R</strong>x (treatments)</li>
+                <li><strong>T</strong>ransport (and handoff)</li>
+              </ul>
+            </div>
+            <div class="tile">
+              <h3>For refusals</h3>
+              <ul>
+                <li>Capacity & orientation documented</li>
+                <li>Risks/benefits explained, teach‑back noted</li>
+                <li>Alternatives offered & return precautions</li>
+                <li>Signatures/witness, vital signs, attempt to contact MD</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer"><span>Frameworks</span><div class="progress"><span></span></div><div class="controls"></div></div>
+    </section>
+
+    <!-- Slide 5: Good vs Bad -->
+    <section class="slide" data-title="Examples">
+      <div class="stage">
+        <div class="card">
+          <span class="kicker">Examples</span>
+          <h2>Bad vs. better narratives</h2>
+          <div class="row">
+            <div class="col-6">
+              <div class="callout bad">
+                <p class="mono">“Pt found on couch. Vitals taken. 324 ASA given. Transported to ER.”</p>
+              </div>
+              <ul class="small muted">
+                <li>No complaint, no exam, no decision making.</li>
+                <li>Medication lacks <em>why</em>, time, route, response.</li>
+              </ul>
+            </div>
+            <div class="col-6">
+              <div class="callout good">
+                <p class="mono">“Dispatched 03:14 for 58M chest pain. On arrival 03:21, pt pale/diaphoretic, c/o substernal pressure 7/10 x35 min at rest; denies pleuritic pain. PMH HTN, hyperlipidemia; meds lisinopril, atorvastatin. Vitals 03:24: 152/92, 104, 22, SpO₂ 95% RA. ECG: 1mm ST dep V5‑V6, no elevation. Given 324mg ASA PO 03:26; pain to 5/10. Nitro withheld due to SBP trending 102 at 03:29. Oxygen titrated to 2 L NC → SpO₂ 98%. Transported code 2; report to RN Smith 03:47.”</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer"><span>Examples</span><div class="progress"><span></span></div><div class="controls"></div></div>
+    </section>
+
+    <!-- Slide 6: Common pitfalls -->
+    <section class="slide" data-title="Pitfalls">
+      <div class="stage">
+        <div class="card">
+          <span class="kicker">Avoid</span>
+          <h2>Common pitfalls</h2>
+          <ul>
+            <li>Copy‑paste from prior calls; mismatched genders/ages/complaints.</li>
+            <li>Vitals without times; single set of vitals for long transports.</li>
+            <li>“Patient tolerated well” with no response metrics.</li>
+            <li>Jargon/abbreviations without context; local slang.</li>
+            <li>Missing <em>negatives</em> that matter (e.g., no SOB, no neuro deficit).</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer"><span>Pitfalls</span><div class="progress"><span></span></div><div class="controls"></div></div>
+    </section>
+
+    <!-- Slide 7: Legal defensibility -->
+    <section class="slide" data-title="Legal">
+      <div class="stage">
+        <div class="card">
+          <span class="kicker">Defensibility</span>
+          <h2>Write like future‑you is on the stand</h2>
+          <ul>
+            <li>Objective tone; avoid sarcasm or blame. Quote patients verbatim when relevant.</li>
+            <li>Time‑order events. Explain deviations from protocol or med control orders.</li>
+            <li>For high‑risk charts (peds, psych, refusals), include capacity and safety plan.</li>
+            <li>Document who you handed off to and that questions were answered.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer"><span>Legal</span><div class="progress"><span></span></div><div class="controls"></div></div>
+    </section>
+
+    <!-- Slide 8: Scenarios practice (interactive prompts) -->
+    <section class="slide" data-title="Practice">
+      <div class="stage">
+        <div class="card">
+          <span class="kicker">Practice</span>
+          <h2>Scenario sprints (3–5 minutes each)</h2>
+          <ol>
+            <li><strong>Medical refusal:</strong> 42F anxiety attack now resolved; wants to stay home. Build a refusal narrative.</li>
+            <li><strong>Trauma:</strong> MVC low‑speed, airbag deployed, no LOC. What negs must you include and why?</li>
+            <li><strong>Cardiac:</strong> ACS rule‑in vs rule‑out language; document reasoning for/against nitro.</li>
+          </ol>
+          <p class="muted small">Tip: have learners write on paper or in your ePCR training mode; then do quick peer review.</p>
+        </div>
+      </div>
+      <div class="footer"><span>Practice</span><div class="progress"><span></span></div><div class="controls"></div></div>
+    </section>
+
+    <!-- Slide 9: Quick checklist -->
+    <section class="slide" data-title="Checklist">
+      <div class="stage">
+        <div class="card">
+          <span class="kicker">At the truck door</span>
+          <h2>30‑second documentation checklist</h2>
+          <ul class="grid-tiles">
+            <li class="tile">Chief complaint in quotes</li>
+            <li class="tile">Pertinent positives & negatives</li>
+            <li class="tile">Vitals with times & trends</li>
+            <li class="tile">Decision‑making & rationale</li>
+            <li class="tile">Responses to treatment</li>
+            <li class="tile">Handoff details (to whom, when)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer"><span>Checklist</span><div class="progress"><span></span></div><div class="controls"></div></div>
+    </section>
+
+    <!-- Slide 10: Mini quiz -->
+    <section class="slide" data-title="Quiz">
+      <div class="stage">
+        <div class="card">
+          <span class="kicker">Knowledge check</span>
+          <h2>Mini‑quiz (raise hands or use QR form)</h2>
+          <ol>
+            <li>Which is stronger: “no neuro deficit” vs. “CN II‑XII intact, NIHSS 0” — and when?</li>
+            <li>List three refusal elements that must be documented.</li>
+            <li>What belongs in Assessment vs. Plan in SOAP?</li>
+          </ol>
+          <p class="muted small">Drop a QR code on this slide that links to a Google Form for quick scoring.</p>
+        </div>
+      </div>
+      <div class="footer"><span>Quiz</span><div class="progress"><span></span></div><div class="controls"></div></div>
+    </section>
+
+    <!-- Slide 11: Closing / resources -->
+    <section class="slide" data-title="Resources">
+      <div class="stage">
+        <div class="card">
+          <span class="kicker">Wrap‑up</span>
+          <h2>Resources & next steps</h2>
+          <ul>
+            <li>Unit pocket card with the 30‑sec checklist.</li>
+            <li>Monthly doc audit with 1:1 feedback (2 charts per provider).</li>
+            <li>Local policy quick‑links & contact for med control.</li>
+          </ul>
+          <p class="muted small">Swap this content for your agency specifics. Export to PDF for handouts.</p>
+        </div>
+      </div>
+      <div class="footer"><span>Resources</span><div class="progress"><span></span></div><div class="controls"></div></div>
+    </section>
+
+  </div>
+
+  <script>
+    (function(){
+      const deck = document.getElementById('deck');
+      const slides = Array.from(deck.querySelectorAll('.slide'));
+      const progressEls = deck.querySelectorAll('.progress > span');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const overviewBtn = document.getElementById('overviewBtn');
+      const blackoutBtn = document.getElementById('blackoutBtn');
+      let i = 0;
+      let overview = false;
+      let blackout = false;
+
+      function show(idx){
+        i = Math.max(0, Math.min(idx, slides.length-1));
+        slides.forEach((s, n)=> s.classList.toggle('active', n===i));
+        const pct = ((i+1)/slides.length)*100;
+        progressEls.forEach(el=> el.style.inset = `0 ${100-pct}% 0 0`);
+        location.hash = `#/${i+1}`;
+      }
+
+      function fromHash(){
+        const m = location.hash.match(/#\/(\d+)/);
+        if(m){ const n = parseInt(m[1], 10); if(!isNaN(n)) show(n-1); }
+      }
+
+      function toggleOverview(){
+        overview = !overview;
+        document.body.style.overflow = overview ? 'auto' : 'hidden';
+        deck.style.display = overview ? 'grid' : 'block';
+        if(overview){
+          deck.style.gridTemplateColumns = 'repeat(auto-fill, minmax(420px, 1fr))';
+          deck.style.gap = '16px';
+          slides.forEach(s=>{ s.style.position='static'; s.style.opacity=1; s.style.transform='none'; s.querySelector('.footer')?.remove(); });
+        } else {
+          // reload to restore original layout
+          location.reload();
+        }
+      }
+
+      function toggleBlackout(){
+        blackout = !blackout;
+        document.body.style.filter = blackout ? 'brightness(0)' : 'none';
+      }
+
+      // Events
+      window.addEventListener('keydown', (e)=>{
+        if(e.key==='ArrowRight' || e.key==='PageDown' || e.key===' '){ e.preventDefault(); show(i+1); }
+        if(e.key==='ArrowLeft'  || e.key==='PageUp'){ e.preventDefault(); show(i-1); }
+        if(e.key.toLowerCase()==='o'){ toggleOverview(); }
+        if(e.key.toLowerCase()==='b'){ toggleBlackout(); }
+        if(e.key.toLowerCase()==='h'){ alert('Keys: ←/→ or Space to navigate, O overview, B blackout'); }
+      });
+      nextBtn?.addEventListener('click', ()=> show(i+1));
+      prevBtn?.addEventListener('click', ()=> show(i-1));
+      overviewBtn?.addEventListener('click', toggleOverview);
+      blackoutBtn?.addEventListener('click', toggleBlackout);
+      window.addEventListener('hashchange', fromHash);
+
+      fromHash();
+      show(i);
+    })();
+  </script>
+</body>
+</html>
