@@ -7,40 +7,79 @@
   <meta name="description" content="Keyboard‑navigable, single‑file slide deck on seasonal outdoor hazards for EMS clinicians (Arkansas focus)." />
   <style>
     :root{
-      --bg:#0b1220; --panel:#111a2e; --muted:#9fb1d9; --text:#e8efff; --accent:#21d4b4; --accent-2:#66a6ff; --danger:#ff7a7a; --shadow:0 10px 30px rgba(0,0,0,.35);
+      --bg:#0b120f; --panel:#0f1a14; --muted:#9fb1d9; --text:#f7fafc; --accent:#2e7d32; --accent-2:#ff8c42; --danger:#ff6b6b; --shadow:0 10px 30px rgba(0,0,0,.35);
     }
     html,body{height:100%;}
     body{
-      margin:0; background: radial-gradient(1200px 800px at 80% -10%, rgba(102,166,255,.18), transparent 60%), radial-gradient(1000px 700px at -10% 90%, rgba(33,212,180,.12), transparent 60%), var(--bg); color:var(--text); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji"; line-height:1.35; letter-spacing:.2px; overflow:hidden;
+      margin:0; background:
+        radial-gradient(1400px 900px at 85% -10%, rgba(46,125,50,.18), transparent 60%),
+        radial-gradient(900px 700px at -10% 90%, rgba(255,140,66,.10), transparent 60%),
+        linear-gradient(180deg, #0a1410 0%, #0b120f 100%);
+      color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Inter, Arial;
+      line-height:1.4; letter-spacing:.2px; overflow:hidden;
+      -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
     }
-    .deck{position:relative; height:100dvh; width:100%;}
-    .slide{position:absolute; inset:0; display:grid; grid-template-rows: 1fr auto; opacity:0; transform: translate3d(0,10px,0) scale(.98); transition: opacity .35s ease, transform .35s ease;}
+    .grain{pointer-events:none; position:fixed; inset:-20%; mix-blend-mode:overlay; opacity:.04; background-image: repeating-linear-gradient(45deg, rgba(255,255,255,.6) 0 1px, transparent 1px 4px);}    
+    .deck{position:relative; height:100dvh; width:100%; touch-action: pan-y pinch-zoom;}
+    .slide{position:absolute; inset:0; display:grid; grid-template-rows: 1fr auto; opacity:0; transform: translate3d(0,14px,0) scale(.985); transition: opacity .28s ease, transform .28s ease; will-change: transform, opacity;}
     .slide.active{opacity:1; transform:none;}
-    .stage{ display:flex; align-items:center; justify-content:center; padding:6vh 7vw; }
-    .card{ max-width:1200px; width:100%; background: linear-gradient(180deg, rgba(17,26,46,.85), rgba(17,26,46,.7)); border:1px solid rgba(159,177,217,.18); box-shadow: var(--shadow); border-radius:24px; padding:min(5vh,56px) min(6vw,56px);} 
-    h1,h2,h3{margin:0 0 .35em 0;}
-    h1{font-size: clamp(42px, 6vw, 72px); line-height:1.05;}
-    h2{font-size: clamp(28px, 4vw, 42px);} h3{font-size: clamp(20px, 2.4vw, 28px); color:var(--muted); font-weight:600;}
-    p,li{font-size: clamp(18px, 1.6vw, 22px); color:#d9e5ff;}
+    /* Subtle photo background */
+    .slide::before{content:""; position:absolute; inset:0; background-size: cover; background-position:center; filter: saturate(.7) brightness(.55) blur(2px); opacity:.36; z-index:0;}
+    .stage, .footer{position:relative; z-index:1;}
+
+    .stage{ display:flex; align-items:center; justify-content:center; padding:6vh clamp(16px,6vw,7vw); }
+    .card{ max-width:1200px; width:100%; background: linear-gradient(180deg, rgba(15,26,20,.82), rgba(15,26,20,.64)); border:1px solid rgba(159,177,217,.18); box-shadow: var(--shadow); border-radius:22px; padding:min(5vh,56px) min(6vw,56px);} 
+    h1,h2,h3{margin:0 0 .4em 0;}
+    h1{font-size: clamp(40px, 5.6vw, 74px); line-height:1.05; background: linear-gradient(90deg, var(--accent-2), var(--accent)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+    h2{font-size: clamp(26px, 3.6vw, 42px); position:relative;}
+    h2:after{content:""; position:absolute; left:0; bottom:-6px; width:120px; height:6px; background:linear-gradient(90deg, var(--accent-2), var(--accent)); border-radius:6px; opacity:.7}
+    h3{font-size: clamp(19px, 2.2vw, 26px); color:#d7e4d9; font-weight:700;}
+    p,li{font-size: clamp(16px, 1.5vw, 21px); color:#eef7ef;}
     ul{margin:.6em 0 0 1.2em; padding:0;}
-    .kicker{color:var(--accent); font-weight:700; letter-spacing:.3px; text-transform:uppercase; font-size: clamp(12px, 1.2vw, 14px);}
+    .kicker{color:var(--accent-2); font-weight:800; letter-spacing:.3px; text-transform:uppercase; font-size: clamp(12px, 1.2vw, 14px);}
     .row{display:grid; gap:24px; grid-template-columns: repeat(12, 1fr);} .col-6{grid-column: span 6;} .col-4{grid-column: span 4;} .col-8{grid-column: span 8;}
-    .badge{display:inline-flex; align-items:center; gap:.5em; padding:.45em .8em; border-radius:999px; border:1px solid rgba(159,177,217,.25); background:rgba(17,26,46,.6); font-size:.9em;}
-    .check{width:1em; height:1em; border-radius:2px; border:2px solid var(--accent); display:inline-block;}
+    .badge{display:inline-flex; align-items:center; gap:.5em; padding:.45em .8em; border-radius:999px; border:1px solid rgba(159,177,217,.25); background:rgba(16,24,40,.45); font-size:.9em;}
+    .check{width:1em; height:1em; border-radius:3px; border:2px solid var(--accent-2); display:inline-block}
     .muted{color:var(--muted)} .accent{color:var(--accent)} .accent2{color:var(--accent-2)}
-    .callout{border-left:4px solid var(--accent); padding-left:1em;} .bad{border-left:4px solid var(--danger);} .good{border-left:4px solid var(--accent);} 
+    .callout{border-left:4px solid var(--accent-2); padding-left:1em;}
+    .bad{border-left:4px solid var(--danger);} .good{border-left:4px solid var(--accent);} 
     .grid-tiles{display:grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap:18px; margin-top:12px}
-    .tile{background:rgba(255,255,255,.03); border:1px solid rgba(159,177,217,.18); border-radius:16px; padding:16px 18px}
-    .footer{display:flex; justify-content:space-between; align-items:center; padding:12px 22px; color:var(--muted)}
-    .progress{position:relative; flex:1; height:6px; margin:0 14px; background:rgba(255,255,255,.08); border-radius:999px; overflow:hidden}
-    .progress>span{position:absolute; inset:0 100% 0 0; background:linear-gradient(90deg,var(--accent), var(--accent-2));}
+    .tile{background:rgba(0,0,0,.25); border:1px solid rgba(159,177,217,.18); border-radius:16px; padding:16px 18px}
+    .footer{display:flex; justify-content:space-between; align-items:center; padding:12px 18px; color:var(--muted)}
+    .progress{position:relative; flex:1; height:6px; margin:0 14px; background:rgba(255,255,255,.1); border-radius:999px; overflow:hidden}
+    .progress>span{position:absolute; inset:0 100% 0 0; background:linear-gradient(90deg,var(--accent-2), var(--accent));}
     .controls{display:flex; gap:8px}
-    .btn{background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); color:var(--text); padding:8px 12px; border-radius:12px; cursor:pointer; user-select:none}
+    .btn{background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); color:var(--text); padding:10px 14px; border-radius:12px; cursor:pointer; user-select:none}
     .btn:active{transform: translateY(1px)}
-    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size:.95em}
+    .mono{font-family: ui-monospace, Menlo, Consolas, monospace; font-size:.95em}
     .small{font-size:.9em}
-    .spacer{height:8px}
-    @media print{ body{background:white; color:#111; overflow:visible} .deck, .slide{position:static; height:auto} .slide{page-break-after:always; opacity:1; transform:none} .card{box-shadow:none; border:1px solid #ddd} .footer, .controls{display:none!important} .kicker, .muted{color:#333} }
+
+    /* Per-slide background images (Unsplash) */
+    .slide[data-title="Title"]::before{background-image:url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1920&auto=format&fit=crop');}
+    .slide[data-title="Arkansas Context"]::before{background-image:url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=1920&auto=format&fit=crop');}
+    .slide[data-title="Tree Stands"]::before{background-image:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1920&auto=format&fit=crop');}
+    .slide[data-title="Snakes"]::before{background-image:url('https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?q=80&w=1920&auto=format&fit=crop');}
+    .slide[data-title="Bears"]::before{background-image:url('https://images.unsplash.com/photo-1508739826987-b79cd8b7da12?q=80&w=1920&auto=format&fit=crop');}
+    .slide[data-title="Stinging Insects"]::before{background-image:url('https://images.unsplash.com/photo-1501706362039-c06b2d715385?q=80&w=1920&auto=format&fit=crop');}
+    .slide[data-title="Irritant Plants"]::before{background-image:url('https://images.unsplash.com/photo-1545239351-1141bd82e8a6?q=80&w=1920&auto=format&fit=crop');}
+    .slide[data-title="ATVs"]::before{background-image:url('https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=1920&auto=format&fit=crop');}
+    .slide[data-title="Dive Injuries"]::before{background-image:url('https://images.unsplash.com/photo-1468581264429-2548ef9eb732?q=80&w=1920&auto=format&fit=crop');}
+    .slide[data-title="Resources"]::before{background-image:url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=1920&auto=format&fit=crop');}
+    .slide[data-title="Checklist"]::before{background-image:url('https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1920&auto=format&fit=crop');}
+    .slide[data-title="Quiz"]::before{background-image:url('https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1920&auto=format&fit=crop');}
+    .slide[data-title="Close"]::before{background-image:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1920&auto=format&fit=crop');}
+
+    /* Mobile tweaks */
+    @media (max-width: 780px){
+      .stage{padding: 4vh 14px}
+      .card{border-radius:18px; padding: 20px 16px}
+      .grid-tiles{grid-template-columns:1fr}
+      .footer{padding:10px 12px}
+      .btn{padding:10px 12px}
+      p,li{font-size:16px}
+    }
+    @media (prefers-reduced-motion: reduce){ .slide{transition:none} }
   </style>
 </head>
 <body>
