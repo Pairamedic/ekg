@@ -44,6 +44,7 @@
   </style>
 </head>
 <body>
+  <div class="grain" aria-hidden="true"></div>
   <div class="deck" id="deck">
 
     <!-- Slide 1: Title -->
@@ -352,10 +353,26 @@
       const blackoutBtn = document.getElementById('blackoutBtn');
       let i = 0; let overview = false; let blackout = false;
 
+      // Unique: slide numbers in each footer
+      const footers = deck.querySelectorAll('.footer');
+      footers.forEach((f)=>{
+        const label = document.createElement('span');
+        label.className = 'muted small mono';
+        label.style.marginRight = '8px';
+        f.insertBefore(label, f.firstChild);
+      });
+      function renderSlideNum(){
+        const total = slides.length;
+        deck.querySelectorAll('.footer .muted.small.mono').forEach((el)=>{ el.textContent = `${i+1}/${total}`; });
+      }
+
       function show(idx){
         i = Math.max(0, Math.min(idx, slides.length-1));
         slides.forEach((s, n)=> s.classList.toggle('active', n===i));
         const pct = ((i+1)/slides.length)*100; progressEls.forEach(el=> el.style.inset = `0 ${100-pct}% 0 0`);
+        location.hash = `#/${i+1}`;
+        renderSlideNum();
+      }% 0 0`);
         location.hash = `#/${i+1}`;
       }
       function fromHash(){ const m = location.hash.match(/#\/(\d+)/); if(m){ const n = parseInt(m[1], 10); if(!isNaN(n)) show(n-1); } }
@@ -364,6 +381,17 @@
 
       window.addEventListener('keydown', (e)=>{
         if(e.key==='ArrowRight' || e.key==='PageDown' || e.key===' '){ e.preventDefault(); show(i+1); }
+        if(e.key==='ArrowLeft'  || e.key==='PageUp'){ e.preventDefault(); show(i-1); }
+        if(e.key.toLowerCase()==='o'){ toggleOverview(); }
+        if(e.key.toLowerCase()==='b'){ toggleBlackout(); }
+        if(e.key.toLowerCase()==='h'){ alert('Keys: ←/→ or Space to navigate, swipe on mobile, O overview, B blackout'); }
+      });
+
+      // Swipe navigation for mobile
+      let touchStartX = null, touchStartY = null, touching = false;
+      const threshold = 50;
+      deck.addEventListener('touchstart', (e)=>{ const t = e.changedTouches[0]; touchStartX = t.clientX; touchStartY = t.clientY; touching = true; }, {passive:true});
+      deck.addEventListener('touchend', (e)=>{ if(!touching) return; touching = false; const t = e.changedTouches[0]; const dx = t.clientX - touchStartX; const dy = t.clientY - touchStartY; if(Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > threshold){ if(dx < 0) show(i+1); else show(i-1); } }, {passive:true}); show(i+1); }
         if(e.key==='ArrowLeft'  || e.key==='PageUp'){ e.preventDefault(); show(i-1); }
         if(e.key.toLowerCase()==='o'){ toggleOverview(); }
         if(e.key.toLowerCase()==='b'){ toggleBlackout(); }
