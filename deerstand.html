@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Outdoor Dangers for EMS Clinicians</title>
+  <meta name="description" content="Keyboard‑navigable, single‑file slide deck on seasonal outdoor hazards for EMS clinicians (Arkansas focus)." />
+  <style>
+    :root{
+      --bg:#0b1220; --panel:#111a2e; --muted:#9fb1d9; --text:#e8efff; --accent:#21d4b4; --accent-2:#66a6ff; --danger:#ff7a7a; --shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+    html,body{height:100%;}
+    body{
+      margin:0; background: radial-gradient(1200px 800px at 80% -10%, rgba(102,166,255,.18), transparent 60%), radial-gradient(1000px 700px at -10% 90%, rgba(33,212,180,.12), transparent 60%), var(--bg); color:var(--text); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji"; line-height:1.35; letter-spacing:.2px; overflow:hidden;
+    }
+    .deck{position:relative; height:100dvh; width:100%;}
+    .slide{position:absolute; inset:0; display:grid; grid-template-rows: 1fr auto; opacity:0; transform: translate3d(0,10px,0) scale(.98); transition: opacity .35s ease, transform .35s ease;}
+    .slide.active{opacity:1; transform:none;}
+    .stage{ display:flex; align-items:center; justify-content:center; padding:6vh 7vw; }
+    .card{ max-width:1200px; width:100%; background: linear-gradient(180deg, rgba(17,26,46,.85), rgba(17,26,46,.7)); border:1px solid rgba(159,177,217,.18); box-shadow: var(--shadow); border-radius:24px; padding:min(5vh,56px) min(6vw,56px);} 
+    h1,h2,h3{margin:0 0 .35em 0;}
+    h1{font-size: clamp(42px, 6vw, 72px); line-height:1.05;}
+    h2{font-size: clamp(28px, 4vw, 42px);} h3{font-size: clamp(20px, 2.4vw, 28px); color:var(--muted); font-weight:600;}
+    p,li{font-size: clamp(18px, 1.6vw, 22px); color:#d9e5ff;}
+    ul{margin:.6em 0 0 1.2em; padding:0;}
+    .kicker{color:var(--accent); font-weight:700; letter-spacing:.3px; text-transform:uppercase; font-size: clamp(12px, 1.2vw, 14px);}
+    .row{display:grid; gap:24px; grid-template-columns: repeat(12, 1fr);} .col-6{grid-column: span 6;} .col-4{grid-column: span 4;} .col-8{grid-column: span 8;}
+    .badge{display:inline-flex; align-items:center; gap:.5em; padding:.45em .8em; border-radius:999px; border:1px solid rgba(159,177,217,.25); background:rgba(17,26,46,.6); font-size:.9em;}
+    .check{width:1em; height:1em; border-radius:2px; border:2px solid var(--accent); display:inline-block;}
+    .muted{color:var(--muted)} .accent{color:var(--accent)} .accent2{color:var(--accent-2)}
+    .callout{border-left:4px solid var(--accent); padding-left:1em;} .bad{border-left:4px solid var(--danger);} .good{border-left:4px solid var(--accent);} 
+    .grid-tiles{display:grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap:18px; margin-top:12px}
+    .tile{background:rgba(255,255,255,.03); border:1px solid rgba(159,177,217,.18); border-radius:16px; padding:16px 18px}
+    .footer{display:flex; justify-content:space-between; align-items:center; padding:12px 22px; color:var(--muted)}
+    .progress{position:relative; flex:1; height:6px; margin:0 14px; background:rgba(255,255,255,.08); border-radius:999px; overflow:hidden}
+    .progress>span{position:absolute; inset:0 100% 0 0; background:linear-gradient(90deg,var(--accent), var(--accent-2));}
+    .controls{display:flex; gap:8px}
+    .btn{background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); color:var(--text); padding:8px 12px; border-radius:12px; cursor:pointer; user-select:none}
+    .btn:active{transform: translateY(1px)}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size:.95em}
+    .small{font-size:.9em}
+    .spacer{height:8px}
+    @media print{ body{background:white; color:#111; overflow:visible} .deck, .slide{position:static; height:auto} .slide{page-break-after:always; opacity:1; transform:none} .card{box-shadow:none; border:1px solid #ddd} .footer, .controls{display:none!important} .kicker, .muted{color:#333} }
+  </style>
+</head>
+<body>
+  <div class="deck" id="deck">
+
+    <!-- Slide 1: Title -->
+    <section class="slide active" data-title="Title">
+      <div class="stage">
+        <div class="card">
+          <div class="badge"><span class="check"></span><span>Field Awareness</span></div>
+          <h1>Outdoor Dangers for EMS Clinicians</h1>
+          <h3>Seasonal hazards, trauma patterns, and scene risks (Arkansas focus)</h3>
+          <p class="muted small">Use ⬅️ ➡️, Space, or click the on‑screen controls. Print for handouts.</p>
+        </div>
+      </div>
+      <div class="footer">
+        <span>Outdoor Dangers</span>
+        <div class="progress"><span id="progressBar"></span></div>
+        <div class="controls">
+          <button class="btn" id="prevBtn" title="Previous (←)">◀</button>
+          <button class="btn" id="nextBtn" title="Next (→ or Space)">▶</button>
+          <button class="btn" id="overviewBtn" title="Overview (O)">O</button>
+          <button class="btn" id="blackoutBtn" title="Blackout (B)">B</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 2: Deer stand & climbing hazards -->
+    <section class="slide" data-title="Tree Stands">
+      <div class="stage">
+        <div class="card">
+          <span class="kicker">Climbing Risks</span>
+          <h2>Deer Stands & Ascents: Where Things Go Wrong</h2>
+          <div class="grid-tiles">
+            <div class="tile">
+              <h3>Common Causes</h3>
+              <ul>
+                <li>Slips on wet/frosted steps; aged or loose rungs.</li>
+                <li>No harness or incorrect tethering while climbing.</li>
+                <li>Equipment snag (rifle/bow/pack) causing loss of balance.</li>
+              </ul>
+            </div>
+            <div class="tile">
+              <h3>Scene Considerations</h3>
+              <ul>
+                <li>Height estimate, fall path (branches, rocks, stumps).</li>
+                <li>Access route for extrication (steep terrain, mud).</li>
+                <li>Hypothermia risk during prolonged discovery.</li>
+              </ul>
+            </div>
+            <div class="tile">
+              <h3>Expected Injuries</h3>
+              <ul>
+                <li>Spine, pelvis, long‑bone fractures.</li>
+                <li>Rib fractures, pneumo/hemothorax, solid‑organ injury.</li>
+                <li>TBI from ground/branch impact.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="callout"><strong>Field tip:</strong> Maintain spinal precautions until low‑risk; watch for occult hemorrhage and exposure injuries.</div>
+        </div>
+      </div>
+      <div class="footer"><span>Tree Stands</span><div class="progress"><span></span></div><div class="controls"></div></div>
+    </section>
+
+    <!-- Slide 3: Snakes (Arkansas) -->
+    <section class="slide" data-title="Snakes">
+      <div class="stage">
+        <div class="card">
+          <span class="kicker">Wildlife</span>
+          <h2>Venomous Snakes You May Encounter (Arkansas)</h2>
+          <div class="grid-tiles">
+            <div class="tile">
+              <h3>Copperhead</h3>
+              <ul>
+                <li>Common in leaf litter, rocky or wooded areas; active into fall.</li>
+                <li>Bites often from accidental step‑on during dusk.</li>
+              </ul>
+            </div>
+            <div class="tile">
+              <h3>Cottonmouth (Water Moccasin)</h3>
+              <ul>
+                <li>Near creeks, ponds, flooded timber; may be encountered en route to stands.</li>
+                <li>Defensive; keep distance during extrication near water.</li>
+              </ul>
+            </div>
+            <div class="tile">
+              <h3>Timber Rattlesnake</h3>
+              <ul>
+                <li>Forested hills; generally avoids conflict but delivers significant envenomation.</li>
+                <li>Listen for rattle warning; maintain scene awareness in brush.</li>
+              </ul>
+            </div>
+          </div>
+          <ul>
+            <li><strong>Assessment:</strong> Local pain/swelling, ecchymosis; systemic signs possible (N/V, hypotension).</li>
+            <li><strong>Do not:</strong> apply ice, incise/suction, or tourniquet. <strong>Do:</strong> immobilize, remove jewelry, rapid transport.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer"><span>Snakes</span><div class="progress"><span></span></div><div class="controls"></div></div>
+    </section>
+
+    <!-- Slide 4: Insects & anaphylaxis -->
+    <section class="slide" data-title="Stinging Insects">
+      <div class="stage">
+        <div class="card">
+          <span class="kicker">Allergens</span>
+          <h2>Closed Stands = Surprise Tenants</h2>
+          <div class="grid-tiles">
+            <div class="tile">
+              <h3>Wasp & Hornet Exposure</h3>
+              <ul>
+                <li>Nests inside unused stands/blinds, under seats or roofs.</li>
+                <li>Multiple stings in confined spaces are common.</li>
+              </ul>
+            </div>
+            <div class="tile">
+              <h3>Clinical Focus</h3>
+              <ul>
+                <li>Local reaction vs systemic anaphylaxis (airway, wheeze, hypotension).</li>
+                <li>Epinephrine early when indicated; repeat per protocol.</li>
+              </ul>
+            </div>
+            <div class="tile">
+              <h3>Team Safety</h3>
+              <ul>
+                <li>Approach stands cautiously; consider PPE, smoke or spray only per local policy.</li>
+                <li>Have exit route if swarmed; don’t trap crew inside small structure.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer"><span>Insects</span><div class="progress"><span></span></div><div class="controls"></div></div>
+    </section>
+
+    <!-- Slide 5: Poison ivy/oak/sumac -->
+    <section class="slide" data-title="Irritant Plants">
+      <div class="stage">
+        <div class="card">
+          <span class="kicker">Dermatologic</span>
+          <h2>Poison Ivy, Oak, and Sumac</h2>
+          <div class="grid-tiles">
+            <div class="tile">
+              <h3>Exposure</h3>
+              <ul>
+                <li>Urushiol oil on plants, clothing, tools, pets.</li>
+                <li>Leaves may persist on vines/climbers around stands.</li>
+              </ul>
+            </div>
+            <div class="tile">
+              <h3>Assessment</h3>
+              <ul>
+                <li>Pruritic vesicular rash, linear streaks, swelling.</li>
+                <li>Face/airway involvement = higher concern.</li>
+              </ul>
+            </div>
+            <div class="tile">
+              <h3>Management</h3>
+              <ul>
+                <li>Soap/water wash ASAP; avoid hot water early.</li>
+                <li>Topical steroids/antihistamines per protocol; consider systemic if severe.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer"><span>Irritant Plants</span><div class="progress"><span></span></div><div class="controls"></div></div>
+    </section>
+
+    <!-- Slide 6: ATVs / 4-wheelers -->
+    <section class="slide" data-title="ATVs">
+      <div class="stage">
+        <div class="card">
+          <span class="kicker">Mechanism</span>
+          <h2>ATV / 4‑Wheel Incidents</h2>
+          <div class="grid-tiles">
+            <div class="tile">
+              <h3>Common Mechanisms</h3>
+              <ul>
+                <li>Rollovers on slopes, sudden turns, hidden ruts.</li>
+                <li>Operator impairment; night riding without lighting.</li>
+              </ul>
+            </div>
+            <div class="tile">
+              <h3>Injuries</h3>
+              <ul>
+                <li>Head/face trauma; cervical spine injuries.</li>
+                <li>Long‑bone fractures, crush/compartment concerns.</li>
+                <li>Thoracoabdominal injury from handlebar impact.</li>
+              </ul>
+            </div>
+            <div class="tile">
+              <h3>Scene Safety</h3>
+              <ul>
+                <li>Secondary vehicles, hunters, firearms in proximity.</li>
+                <li>Fuel leaks, hot engines, entanglement hazards.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer"><span>ATVs</span><div class="progress"><span></span></div><div class="controls"></div></div>
+    </section>
+
+    <!-- Slide 7: Dive/Shallow water injuries -->
+    <section class="slide" data-title="Dive Injuries">
+      <div class="stage">
+        <div class="card">
+          <span class="kicker">Water</span>
+          <h2>Dive & Shallow‑Water Trauma</h2>
+          <div class="grid-tiles">
+            <div class="tile">
+              <h3>Mechanisms</h3>
+              <ul>
+                <li>Dive into unknown depth; jump from dock/rocks.</li>
+                <li>Slip/fall into water with head impact.</li>
+              </ul>
+            </div>
+            <div class="tile">
+              <h3>Injury Patterns</h3>
+              <ul>
+                <li>C‑spine fracture/dislocation (C5–C7 common).</li>
+                <li>LOC, aspiration, drowning/near‑drowning.</li>
+                <li>Hypothermia during prolonged extrication.</li>
+              </ul>
+            </div>
+            <div class="tile">
+              <h3>Management Priorities</h3>
+              <ul>
+                <li>Airway/ventilation first; spinal precautions.</li>
+                <li>Warm, oxygenate, monitor; rapid transport to capability.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer"><span>Dive Injuries</span><div class="progress"><span></span></div><div class="controls"></div></div>
+    </section>
+
+    <!-- Slide 8: Quick checklist -->
+    <section class="slide" data-title="Checklist">
+      <div class="stage">
+        <div class="card">
+          <span class="kicker">Door Check</span>
+          <h2>30‑Second Field Checklist</h2>
+          <ul class="grid-tiles">
+            <li class="tile">Scene access & egress planned</li>
+            <li class="tile">Mechanism estimated (height, surface, speed)</li>
+            <li class="tile">Airway risk & anaphylaxis readiness</li>
+            <li class="tile">Spine & hemorrhage priorities</li>
+            <li class="tile">Exposure protection (plants, insects, weather)</li>
+            <li class="tile">Document terrain + environmental factors</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer"><span>Checklist</span><div class="progress"><span></span></div><div class="controls"></div></div>
+    </section>
+
+    <!-- Slide 9: Mini quiz -->
+    <section class="slide" data-title="Quiz">
+      <div class="stage">
+        <div class="card">
+          <span class="kicker">Knowledge Check</span>
+          <h2>Mini‑Quiz</h2>
+          <ol>
+            <li>Name two high‑risk injuries unique to tree‑stand falls.</li>
+            <li>List two Arkansas venomous snakes you might encounter on scene.</li>
+            <li>First‑line treatment for suspected anaphylaxis?</li>
+            <li>Top three priorities in shallow‑water dive trauma.</li>
+          </ol>
+          <p class="muted small">Add a QR to your LMS/Google Form for quick scoring.</p>
+        </div>
+      </div>
+      <div class="footer"><span>Quiz</span><div class="progress"><span></span></div><div class="controls"></div></div>
+    </section>
+
+    <!-- Slide 10: Close -->
+    <section class="slide" data-title="Close">
+      <div class="stage">
+        <div class="card">
+          <span class="kicker">Wrap‑up</span>
+          <h2>Stay Safe, Stay Smart</h2>
+          <ul>
+            <li>Hazard recognition = fewer surprises for patients and crews.</li>
+            <li>Let environment inform your trauma index and documentation.</li>
+            <li>Debrief unusual scenes to update training and response plans.</li>
+          </ul>
+          <p class="muted small">Swap in agency‑specific policies, comms channels, and med control numbers here.</p>
+        </div>
+      </div>
+      <div class="footer"><span>Close</span><div class="progress"><span></span></div><div class="controls"></div></div>
+    </section>
+
+  </div>
+
+  <script>
+    (function(){
+      const deck = document.getElementById('deck');
+      const slides = Array.from(deck.querySelectorAll('.slide'));
+      const progressEls = deck.querySelectorAll('.progress > span');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const overviewBtn = document.getElementById('overviewBtn');
+      const blackoutBtn = document.getElementById('blackoutBtn');
+      let i = 0; let overview = false; let blackout = false;
+
+      function show(idx){
+        i = Math.max(0, Math.min(idx, slides.length-1));
+        slides.forEach((s, n)=> s.classList.toggle('active', n===i));
+        const pct = ((i+1)/slides.length)*100; progressEls.forEach(el=> el.style.inset = `0 ${100-pct}% 0 0`);
+        location.hash = `#/${i+1}`;
+      }
+      function fromHash(){ const m = location.hash.match(/#\/(\d+)/); if(m){ const n = parseInt(m[1], 10); if(!isNaN(n)) show(n-1); } }
+      function toggleOverview(){ overview = !overview; document.body.style.overflow = overview ? 'auto' : 'hidden'; deck.style.display = overview ? 'grid' : 'block'; if(overview){ deck.style.gridTemplateColumns = 'repeat(auto-fill, minmax(420px, 1fr))'; deck.style.gap = '16px'; slides.forEach(s=>{ s.style.position='static'; s.style.opacity=1; s.style.transform='none'; s.querySelector('.footer')?.remove(); }); } else { location.reload(); } }
+      function toggleBlackout(){ blackout = !blackout; document.body.style.filter = blackout ? 'brightness(0)' : 'none'; }
+
+      window.addEventListener('keydown', (e)=>{
+        if(e.key==='ArrowRight' || e.key==='PageDown' || e.key===' '){ e.preventDefault(); show(i+1); }
+        if(e.key==='ArrowLeft'  || e.key==='PageUp'){ e.preventDefault(); show(i-1); }
+        if(e.key.toLowerCase()==='o'){ toggleOverview(); }
+        if(e.key.toLowerCase()==='b'){ toggleBlackout(); }
+        if(e.key.toLowerCase()==='h'){ alert('Keys: ←/→ or Space to navigate, O overview, B blackout'); }
+      });
+      nextBtn?.addEventListener('click', ()=> show(i+1));
+      prevBtn?.addEventListener('click', ()=> show(i-1));
+      overviewBtn?.addEventListener('click', toggleOverview);
+      blackoutBtn?.addEventListener('click', toggleBlackout);
+      window.addEventListener('hashchange', fromHash);
+      fromHash(); show(i);
+    })();
+  </script>
+</body>
+</html>
