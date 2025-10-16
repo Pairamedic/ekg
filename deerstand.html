@@ -3,11 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Outdoor Dangers for EMS Clinicians</title>
-  <meta name="description" content="Keyboard‑navigable, single‑file slide deck on seasonal outdoor hazards for EMS clinicians (Arkansas focus)." />
+  <title>Outdoor Dangers for EMS Clinicians — Arkansas Edition</title>
+  <meta name="description" content="Keyboard-navigable, mobile-friendly slide deck on outdoor hazards for EMS clinicians in Arkansas, with documentation and operations tips." />
   <style>
     :root{
-      --bg:#0b120f; --panel:#0f1a14; --muted:#9fb1d9; --text:#f7fafc; --accent:#2e7d32; --accent-2:#ff8c42; --danger:#ff6b6b; --shadow:0 10px 30px rgba(0,0,0,.35);
+      --bg:#0b120f; --panel:#0f1a14; --muted:#9fb1d9; --text:#f7fafc;
+      --accent:#2e7d32; --accent-2:#ff8c42; --danger:#ff6b6b; --shadow:0 10px 30px rgba(0,0,0,.35);
     }
     html,body{height:100%;}
     body{
@@ -20,7 +21,7 @@
       line-height:1.4; letter-spacing:.2px; overflow:hidden;
       -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
     }
-    .grain{pointer-events:none; position:fixed; inset:-20%; mix-blend-mode:overlay; opacity:.04; background-image: repeating-linear-gradient(45deg, rgba(255,255,255,.6) 0 1px, transparent 1px 4px);}    
+    .grain{pointer-events:none; position:fixed; inset:-20%; mix-blend-mode:overlay; opacity:.04; background-image: repeating-linear-gradient(45deg, rgba(255,255,255,.6) 0 1px, transparent 1px 4px);}
     .deck{position:relative; height:100dvh; width:100%; touch-action: pan-y pinch-zoom;}
     .slide{position:absolute; inset:0; display:grid; grid-template-rows: 1fr auto; opacity:0; transform: translate3d(0,14px,0) scale(.985); transition: opacity .28s ease, transform .28s ease; will-change: transform, opacity;}
     .slide.active{opacity:1; transform:none;}
@@ -29,7 +30,7 @@
     .stage, .footer{position:relative; z-index:1;}
 
     .stage{ display:flex; align-items:center; justify-content:center; padding:6vh clamp(16px,6vw,7vw); }
-    .card{ max-width:1200px; width:100%; background: linear-gradient(180deg, rgba(15,26,20,.82), rgba(15,26,20,.64)); border:1px solid rgba(159,177,217,.18); box-shadow: var(--shadow); border-radius:22px; padding:min(5vh,56px) min(6vw,56px);} 
+    .card{ max-width:1200px; width:100%; background: linear-gradient(180deg, rgba(15,26,20,.82), rgba(15,26,20,.64)); border:1px solid rgba(159,177,217,.18); box-shadow: var(--shadow); border-radius:22px; padding:min(5vh,56px) min(6vw,56px);}
     h1,h2,h3{margin:0 0 .4em 0;}
     h1{font-size: clamp(40px, 5.6vw, 74px); line-height:1.05; background: linear-gradient(90deg, var(--accent-2), var(--accent)); -webkit-background-clip:text; background-clip:text; color:transparent;}
     h2{font-size: clamp(26px, 3.6vw, 42px); position:relative;}
@@ -43,7 +44,7 @@
     .check{width:1em; height:1em; border-radius:3px; border:2px solid var(--accent-2); display:inline-block}
     .muted{color:var(--muted)} .accent{color:var(--accent)} .accent2{color:var(--accent-2)}
     .callout{border-left:4px solid var(--accent-2); padding-left:1em;}
-    .bad{border-left:4px solid var(--danger);} .good{border-left:4px solid var(--accent);} 
+    .bad{border-left:4px solid var(--danger);} .good{border-left:4px solid var(--accent);}
     .grid-tiles{display:grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap:18px; margin-top:12px}
     .tile{background:rgba(0,0,0,.25); border:1px solid rgba(159,177,217,.18); border-radius:16px; padding:16px 18px}
     .footer{display:flex; justify-content:space-between; align-items:center; padding:12px 18px; color:var(--muted)}
@@ -54,6 +55,7 @@
     .btn:active{transform: translateY(1px)}
     .mono{font-family: ui-monospace, Menlo, Consolas, monospace; font-size:.95em}
     .small{font-size:.9em}
+    .tiny{font-size:.8em}
 
     /* Per-slide background images (Unsplash) */
     .slide[data-title="Title"]::before{background-image:url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1920&auto=format&fit=crop');}
@@ -92,8 +94,8 @@
         <div class="card">
           <div class="badge"><span class="check"></span><span>Field Awareness</span></div>
           <h1>Outdoor Dangers for EMS Clinicians</h1>
-          <h3>Seasonal hazards, trauma patterns, and scene risks (Arkansas focus)</h3>
-          <p class="muted small">Use ⬅️ ➡️, Space, or click the on‑screen controls. Print for handouts.</p>
+          <h3>Arkansas Edition: Seasonal hazards, trauma patterns, and scene risks</h3>
+          <p class="muted small">Use ⬅️ ➡️, Space, or the on-screen controls. Press O for overview, B for blackout. Print for handouts.</p>
         </div>
       </div>
       <div class="footer">
@@ -108,7 +110,44 @@
       </div>
     </section>
 
-    <!-- Slide 2: Deer stand & climbing hazards -->
+    <!-- Slide 2: Arkansas Context -->
+    <section class="slide" data-title="Arkansas Context">
+      <div class="stage">
+        <div class="card">
+          <span class="kicker">Localization</span>
+          <h2>Arkansas Context: Terrain, Weather, & Response</h2>
+          <div class="grid-tiles">
+            <div class="tile">
+              <h3>Terrain & Access</h3>
+              <ul>
+                <li>Ozarks & Ouachitas: steep hollows, dense forest, rocky footing.</li>
+                <li>Delta floodplains: mud, bayous, levees, limited road access.</li>
+                <li>Expect <em>limited radio/cell coverage</em>—plan relay or alt comms.</li>
+              </ul>
+            </div>
+            <div class="tile">
+              <h3>Operations</h3>
+              <ul>
+                <li>Rural response & long transports to Level I/II trauma centers.</li>
+                <li>Mutual aid: AGFC, county VFDs, SAR teams, forestry units.</li>
+                <li>Stage safely for wildlife/weapon risks during hunting season.</li>
+              </ul>
+            </div>
+            <div class="tile">
+              <h3>Documentation Focus</h3>
+              <ul>
+                <li>Mechanism & environment (height, surface, weather, terrain).</li>
+                <li>Time down, access route/extrication method, comms issues.</li>
+                <li>Wildlife exposure, plants/insects, waterbody name if relevant.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer"><span>Arkansas Context</span><div class="progress"><span></span></div><div class="controls"></div></div>
+    </section>
+
+    <!-- Slide 3: Tree Stands -->
     <section class="slide" data-title="Tree Stands">
       <div class="stage">
         <div class="card">
@@ -118,55 +157,92 @@
             <div class="tile">
               <h3>Common Causes</h3>
               <ul>
-                <li>Slips on wet/frosted steps; aged or loose rungs.</li>
+                <li>Wet/frosted steps, aged rungs, equipment snags.</li>
                 <li>No harness or incorrect tethering while climbing.</li>
-                <li>Equipment snag (rifle/bow/pack) causing loss of balance.</li>
+                <li>Fatigue or impairment during early AM/late PM ascents.</li>
               </ul>
             </div>
             <div class="tile">
               <h3>Scene Considerations</h3>
               <ul>
-                <li>Height estimate, fall path (branches, rocks, stumps).</li>
-                <li>Access route for extrication (steep terrain, mud).</li>
-                <li>Hypothermia risk during prolonged discovery.</li>
+                <li>Estimate height & fall path (branches, rocks, stumps).</li>
+                <li>Steep terrain/mud; plan ATV/UTV access for carries.</li>
+                <li>Hypothermia during prolonged discovery/extrication.</li>
               </ul>
             </div>
             <div class="tile">
               <h3>Expected Injuries</h3>
               <ul>
-                <li>Spine, pelvis, long‑bone fractures.</li>
-                <li>Rib fractures, pneumo/hemothorax, solid‑organ injury.</li>
-                <li>TBI from ground/branch impact.</li>
+                <li>Spine, pelvis, long-bone fractures; rib & thoracic injury.</li>
+                <li>TBI from ground/branch impact; occult hemorrhage.</li>
               </ul>
             </div>
           </div>
-          <div class="callout"><strong>Field tip:</strong> Maintain spinal precautions until low‑risk; watch for occult hemorrhage and exposure injuries.</div>
+          <div class="callout"><strong>Documentation Focus:</strong> Fall height, landing surface, position found, time down, harness presence/condition, extrication method.</div>
         </div>
       </div>
       <div class="footer"><span>Tree Stands</span><div class="progress"><span></span></div><div class="controls"></div></div>
-    </section>$1
+    </section>
 
-    <!-- Slide 4: Bear Encounters -->
+    <!-- Slide 4: Snakes (Arkansas) -->
+    <section class="slide" data-title="Snakes">
+      <div class="stage">
+        <div class="card">
+          <span class="kicker">Wildlife</span>
+          <h2>Venomous Snakes in Arkansas</h2>
+          <div class="grid-tiles">
+            <div class="tile">
+              <h3>Pit Vipers</h3>
+              <ul>
+                <li><strong>Copperhead</strong> — common in leaf litter; active into fall.</li>
+                <li><strong>Cottonmouth</strong> — creeks/ponds/bayous; defensive near water.</li>
+                <li><strong>Timber Rattlesnake</strong> — forested hills; significant envenomation.</li>
+                <li><strong>Western Pygmy Rattlesnake</strong> — smaller, camouflaged; localized bites.</li>
+              </ul>
+            </div>
+            <div class="tile">
+              <h3>Elapids</h3>
+              <ul>
+                <li><strong>Texas Coral Snake</strong> — rare in far SW Arkansas; neurotoxic.</li>
+              </ul>
+              <p class="tiny muted">Identification uncertain? Treat as venomous and avoid capture attempts.</p>
+            </div>
+            <div class="tile">
+              <h3>Care & Coordination</h3>
+              <ul>
+                <li>Immobilize limb, remove jewelry, keep at heart level.</li>
+                <li><strong>No</strong> ice, incision/suction, or tourniquet.</li>
+                <li><strong>Our service does not carry antivenom</strong> — coordinate early with <strong>TraumaCom/receiving ER</strong> to confirm availability and destination.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="callout"><strong>Documentation Focus:</strong> Bite site & side, time of bite, species (if known), serial swelling measurements (q15), pain progression, waterbody/trail name if relevant.</div>
+        </div>
+      </div>
+      <div class="footer"><span>Snakes</span><div class="progress"><span></span></div><div class="controls"></div></div>
+    </section>
+
+    <!-- Slide 5: Bears -->
     <section class="slide" data-title="Bears">
       <div class="stage">
         <div class="card">
           <span class="kicker">Wildlife</span>
-          <h2>Wildlife Encounters: Black Bears</h2>
+          <h2>Black Bears: Encounters & Attacks</h2>
           <div class="grid-tiles">
             <div class="tile">
               <h3>Behavior & Triggers</h3>
               <ul>
-                <li>Usually avoid humans; aggression often defensive.</li>
-                <li>Common triggers: startled at close range, cub protection, food sources (coolers, bait, carcasses).</li>
-                <li>Dawn/dusk activity; dense brush reduces visibility.</li>
+                <li>Generally avoid humans; aggression is defensive.</li>
+                <li>Triggers: startled at close range, cub protection, food sources.</li>
+                <li>Activity peaks dawn/dusk; dense brush lowers visibility.</li>
               </ul>
             </div>
             <div class="tile">
               <h3>Scene Safety</h3>
               <ul>
-                <li>Stage until law enforcement/game warden confirms area secure.</li>
-                <li>Beware of return to food sources; keep egress path clear.</li>
-                <li>Use loud verbal cues, avoid cornering; keep team together.</li>
+                <li>Stage until law enforcement/AGFC confirm area secure.</li>
+                <li>Beware return to carcass/bait; keep egress path clear.</li>
+                <li>Unify crew; avoid cornering or separating responders.</li>
               </ul>
             </div>
             <div class="tile">
@@ -174,54 +250,52 @@
               <ul>
                 <li>Deep lacerations/avulsions (scalp/face/forearms).</li>
                 <li>Crush injuries, fractures, penetrating tooth wounds.</li>
-                <li>Hemorrhage & contamination → early antibiotics per local guidance.</li>
+                <li>Hemorrhage & contamination → early prophylaxis per guidance.</li>
               </ul>
             </div>
           </div>
-          <div class="callout"><strong>Priorities:</strong> Hemorrhage control (tourniquet/pressure dressing), airway protection, rapid analgesia, broad documentation of wound locations, and early notification of receiving trauma center.</div>
+          <div class="callout"><strong>Documentation Focus:</strong> Scene security confirmation (AGFC/LE), wound locations, hemorrhage control steps, analgesia, tetanus status, destination trauma capability.</div>
         </div>
       </div>
       <div class="footer"><span>Bears</span><div class="progress"><span></span></div><div class="controls"></div></div>
     </section>
 
-    <!-- Slide 5: Insects & anaphylaxis -->
+    <!-- Slide 6: Insects & anaphylaxis -->
     <section class="slide" data-title="Stinging Insects">
       <div class="stage">
         <div class="card">
           <span class="kicker">Allergens</span>
-          <h2>Closed Stands = Surprise Tenants</h2>
+          <h2>Closed Stands = Surprise Tenants (Wasps & Hornets)</h2>
           <div class="grid-tiles">
             <div class="tile">
-              <h3>Wasp & Hornet Exposure</h3>
+              <h3>Exposure</h3>
               <ul>
-                <li>Nests inside unused stands/blinds, under seats or roofs.</li>
-                <li>Disturbance during entry can cause multiple stings rapidly.</li>
+                <li>Nests inside unused stands/blinds, under seats/roofs.</li>
+                <li>Disturbance during entry → multiple stings quickly.</li>
               </ul>
             </div>
             <div class="tile">
               <h3>Clinical Focus</h3>
               <ul>
-                <li>Watch for rapid progression from local swelling to anaphylaxis.</li>
-                <li>Epinephrine IM first-line; repeat per protocol if symptoms persist.</li>
-                <li>Supportive: airway/oxygen, bronchodilator for wheeze, fluids for hypotension.</li>
+                <li>Watch for rapid progression to anaphylaxis (airway, wheeze, hypotension).</li>
+                <li>Epinephrine IM first-line; repeat per protocol; adjuncts PRN.</li>
               </ul>
             </div>
             <div class="tile">
               <h3>Team Safety</h3>
               <ul>
-                <li>Approach cautiously; identify nests before entry.</li>
-                <li>Have a quick exit plan; consider relocating the patient before treatment if swarming continues.</li>
+                <li>Identify nests before entry; have exit plan; relocate patient if swarming.</li>
                 <li>Monitor crew/bystanders—secondary anaphylaxis can occur.</li>
               </ul>
             </div>
           </div>
-          <p class="muted small">Tip: Stock epinephrine auto-injectors in fall kits; verify expiration dates before season.</p>
+          <div class="callout"><strong>Documentation Focus:</strong> Suspected source, onset time, number of stings, Epi timing/dose/response, airway findings, need for second dose.</div>
         </div>
       </div>
       <div class="footer"><span>Insects</span><div class="progress"><span></span></div><div class="controls"></div></div>
     </section>
 
-    <!-- Slide 5: Poison ivy/oak/sumac -->
+    <!-- Slide 7: Irritant Plants -->
     <section class="slide" data-title="Irritant Plants">
       <div class="stage">
         <div class="card">
@@ -231,8 +305,8 @@
             <div class="tile">
               <h3>Exposure</h3>
               <ul>
-                <li>Urushiol oil on plants, clothing, tools, pets.</li>
-                <li>Leaves may persist on vines/climbers around stands.</li>
+                <li>Urushiol on plants, clothing, tools, pets; vines on stands.</li>
+                <li>Secondary transfer from contaminated gear is common.</li>
               </ul>
             </div>
             <div class="tile">
@@ -246,34 +320,35 @@
               <h3>Management</h3>
               <ul>
                 <li>Soap/water wash ASAP; avoid hot water early.</li>
-                <li>Topical steroids/antihistamines per protocol; consider systemic if severe.</li>
+                <li>Topical/systemic therapy per protocol based on severity.</li>
               </ul>
             </div>
           </div>
+          <div class="callout"><strong>Documentation Focus:</strong> Exposure source/location, decontamination steps, spread/airway involvement, response to meds.</div>
         </div>
       </div>
       <div class="footer"><span>Irritant Plants</span><div class="progress"><span></span></div><div class="controls"></div></div>
     </section>
 
-    <!-- Slide 6: ATVs / 4-wheelers -->
+    <!-- Slide 8: ATVs -->
     <section class="slide" data-title="ATVs">
       <div class="stage">
         <div class="card">
           <span class="kicker">Mechanism</span>
-          <h2>ATV / 4‑Wheel Incidents</h2>
+          <h2>ATV / 4-Wheel Incidents</h2>
           <div class="grid-tiles">
             <div class="tile">
               <h3>Common Mechanisms</h3>
               <ul>
                 <li>Rollovers on slopes, sudden turns, hidden ruts.</li>
-                <li>Operator impairment; night riding without lighting.</li>
+                <li>Impairment; night riding without adequate lighting.</li>
               </ul>
             </div>
             <div class="tile">
               <h3>Injuries</h3>
               <ul>
-                <li>Head/face trauma; cervical spine injuries.</li>
-                <li>Long‑bone fractures, crush/compartment concerns.</li>
+                <li>Head/face trauma; C-spine injuries.</li>
+                <li>Long-bone fractures, crush/compartment concerns.</li>
                 <li>Thoracoabdominal injury from handlebar impact.</li>
               </ul>
             </div>
@@ -285,31 +360,32 @@
               </ul>
             </div>
           </div>
+          <div class="callout"><strong>Documentation Focus:</strong> Helmet use, speed/terrain, ejection/rollover, LOC, extrication, associated wildlife/weapons on scene.</div>
         </div>
       </div>
       <div class="footer"><span>ATVs</span><div class="progress"><span></span></div><div class="controls"></div></div>
     </section>
 
-    <!-- Slide 7: Dive/Shallow water injuries -->
+    <!-- Slide 9: Dive/Shallow water injuries (local waters) -->
     <section class="slide" data-title="Dive Injuries">
       <div class="stage">
         <div class="card">
           <span class="kicker">Water</span>
-          <h2>Dive & Shallow‑Water Trauma</h2>
+          <h2>Dive & Shallow-Water Trauma (Local Waters)</h2>
           <div class="grid-tiles">
             <div class="tile">
-              <h3>Mechanisms</h3>
+              <h3>Local Examples</h3>
               <ul>
-                <li>Dive into unknown depth; jump from dock/rocks.</li>
-                <li>Slip/fall into water with head impact.</li>
+                <li><strong>Lake Pine Bluff</strong> & <strong>Lake Langhofer</strong> — submerged logs/equipment, sudden drop-offs.</li>
+                <li><strong>Arkansas River</strong> — currents, low visibility, channel edges.</li>
+                <li><strong>Bayou Bartholomew</strong> — dense vegetation, snags, variable depth.</li>
               </ul>
             </div>
             <div class="tile">
               <h3>Injury Patterns</h3>
               <ul>
-                <li>C‑spine fracture/dislocation (C5–C7 common).</li>
-                <li>LOC, aspiration, drowning/near‑drowning.</li>
-                <li>Hypothermia during prolonged extrication.</li>
+                <li>C-spine fracture/dislocation (C5–C7 common), head lacerations.</li>
+                <li>LOC, aspiration, drowning/near-drowning, hypothermia.</li>
               </ul>
             </div>
             <div class="tile">
@@ -320,41 +396,74 @@
               </ul>
             </div>
           </div>
+          <div class="callout"><strong>Documentation Focus:</strong> Waterbody name, entry point, depth estimate, visibility/current, timeline, bystander rescue details.</div>
         </div>
       </div>
       <div class="footer"><span>Dive Injuries</span><div class="progress"><span></span></div><div class="controls"></div></div>
     </section>
 
-    <!-- Slide 8: Quick checklist -->
+    <!-- Slide 10: Arkansas Resources -->
+    <section class="slide" data-title="Resources">
+      <div class="stage">
+        <div class="card">
+          <span class="kicker">Local</span>
+          <h2>Arkansas Field Resources & Local Areas</h2>
+          <div class="row">
+            <div class="col-6">
+              <h3>Agencies & Contacts</h3>
+              <ul>
+                <li><strong>AGFC</strong> — Arkansas Game & Fish Commission (wildlife, boat patrol, access)</li>
+                <li><strong>TraumaCom / Receiving ER</strong> — confirm antivenom availability for snakebites</li>
+                <li>County VFDs & SAR teams — backwoods access/extrication</li>
+                <li>Arkansas Poison Control: <span class="mono">1-800-222-1222</span></li>
+              </ul>
+            </div>
+            <div class="col-6">
+              <h3>Local Areas (Jefferson County)</h3>
+              <ul>
+                <li><strong>Arkansas River</strong>, <strong>Lake Pine Bluff</strong>, <strong>Lake Langhofer</strong></li>
+                <li><strong>Bayou Bartholomew</strong> (slow water, vegetation/snags)</li>
+                <li><strong>Byrd Lake Natural Area</strong> (trails, mixed forest)</li>
+                <li><strong>Delta Rivers Nature Center</strong> (bottomland hardwood habitat)</li>
+              </ul>
+              <p class="tiny muted">Use these names in reports to improve clarity and interagency coordination.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer"><span>Resources</span><div class="progress"><span></span></div><div class="controls"></div></div>
+    </section>
+
+    <!-- Slide 11: Checklist -->
     <section class="slide" data-title="Checklist">
       <div class="stage">
         <div class="card">
           <span class="kicker">Door Check</span>
-          <h2>30‑Second Field Checklist</h2>
+          <h2>30-Second Field Checklist</h2>
           <ul class="grid-tiles">
             <li class="tile">Scene access & egress planned</li>
             <li class="tile">Mechanism estimated (height, surface, speed)</li>
             <li class="tile">Airway risk & anaphylaxis readiness</li>
             <li class="tile">Spine & hemorrhage priorities</li>
             <li class="tile">Exposure protection (plants, insects, weather)</li>
-            <li class="tile">Document terrain + environmental factors</li>
+            <li class="tile">Document terrain + waterbody/wildlife factors</li>
           </ul>
         </div>
       </div>
       <div class="footer"><span>Checklist</span><div class="progress"><span></span></div><div class="controls"></div></div>
     </section>
 
-    <!-- Slide 9: Mini quiz -->
+    <!-- Slide 12: Mini quiz -->
     <section class="slide" data-title="Quiz">
       <div class="stage">
         <div class="card">
           <span class="kicker">Knowledge Check</span>
-          <h2>Mini‑Quiz</h2>
+          <h2>Mini-Quiz</h2>
           <ol>
-            <li>Name two high‑risk injuries unique to tree‑stand falls.</li>
-            <li>List two Arkansas venomous snakes you might encounter on scene.</li>
-            <li>First‑line treatment for suspected anaphylaxis?</li>
-            <li>Top three priorities in shallow‑water dive trauma.</li>
+            <li>Name two high-risk injuries unique to tree-stand falls.</li>
+            <li>List three venomous snakes in Arkansas and your first coordination step.</li>
+            <li>First-line treatment for suspected anaphylaxis?</li>
+            <li>What documentation items are essential for a dive injury on the Arkansas River?</li>
           </ol>
           <p class="muted small">Add a QR to your LMS/Google Form for quick scoring.</p>
         </div>
@@ -362,18 +471,18 @@
       <div class="footer"><span>Quiz</span><div class="progress"><span></span></div><div class="controls"></div></div>
     </section>
 
-    <!-- Slide 10: Close -->
+    <!-- Slide 13: Close -->
     <section class="slide" data-title="Close">
       <div class="stage">
         <div class="card">
-          <span class="kicker">Wrap‑up</span>
+          <span class="kicker">Wrap-up</span>
           <h2>Stay Safe, Stay Smart</h2>
           <ul>
             <li>Hazard recognition = fewer surprises for patients and crews.</li>
-            <li>Let environment inform your trauma index and documentation.</li>
-            <li>Debrief unusual scenes to update training and response plans.</li>
+            <li>Let environment guide trauma index, transport, and documentation.</li>
+            <li>Loop AGFC/TraumaCom early when wildlife or antivenom issues arise.</li>
           </ul>
-          <p class="muted small">Swap in agency‑specific policies, comms channels, and med control numbers here.</p>
+          <p class="muted small">Swap in agency-specific policies, comms channels, med control numbers, and local trauma destinations.</p>
         </div>
       </div>
       <div class="footer"><span>Close</span><div class="progress"><span></span></div><div class="controls"></div></div>
@@ -390,16 +499,18 @@
       const nextBtn = document.getElementById('nextBtn');
       const overviewBtn = document.getElementById('overviewBtn');
       const blackoutBtn = document.getElementById('blackoutBtn');
-      let i = 0; let overview = false; let blackout = false;
-
-      // Unique: slide numbers in each footer
       const footers = deck.querySelectorAll('.footer');
+
+      // Add slide numbers to each footer
       footers.forEach((f)=>{
         const label = document.createElement('span');
         label.className = 'muted small mono';
         label.style.marginRight = '8px';
         f.insertBefore(label, f.firstChild);
       });
+
+      let i = 0; let overview = false; let blackout = false;
+
       function renderSlideNum(){
         const total = slides.length;
         deck.querySelectorAll('.footer .muted.small.mono').forEach((el)=>{ el.textContent = `${i+1}/${total}`; });
@@ -408,16 +519,45 @@
       function show(idx){
         i = Math.max(0, Math.min(idx, slides.length-1));
         slides.forEach((s, n)=> s.classList.toggle('active', n===i));
-        const pct = ((i+1)/slides.length)*100; progressEls.forEach(el=> el.style.inset = `0 ${100-pct}% 0 0`);
+        const pct = ((i + 1) / slides.length) * 100;
+        const rightInset = 100 - pct;
+        progressEls.forEach(el => { el.style.inset = `0 ${rightInset}% 0 0`; });
         location.hash = `#/${i+1}`;
         renderSlideNum();
-      }% 0 0`);
-        location.hash = `#/${i+1}`;
       }
-      function fromHash(){ const m = location.hash.match(/#\/(\d+)/); if(m){ const n = parseInt(m[1], 10); if(!isNaN(n)) show(n-1); } }
-      function toggleOverview(){ overview = !overview; document.body.style.overflow = overview ? 'auto' : 'hidden'; deck.style.display = overview ? 'grid' : 'block'; if(overview){ deck.style.gridTemplateColumns = 'repeat(auto-fill, minmax(420px, 1fr))'; deck.style.gap = '16px'; slides.forEach(s=>{ s.style.position='static'; s.style.opacity=1; s.style.transform='none'; s.querySelector('.footer')?.remove(); }); } else { location.reload(); } }
-      function toggleBlackout(){ blackout = !blackout; document.body.style.filter = blackout ? 'brightness(0)' : 'none'; }
 
+      function fromHash(){
+        const m = location.hash.match(/#\/(\d+)/);
+        if(m){
+          const n = parseInt(m[1], 10);
+          if(!isNaN(n)) show(n-1);
+        }
+      }
+
+      function toggleOverview(){
+        overview = !overview;
+        document.body.style.overflow = overview ? 'auto' : 'hidden';
+        deck.style.display = overview ? 'grid' : 'block';
+        if(overview){
+          deck.style.gridTemplateColumns = 'repeat(auto-fill, minmax(420px, 1fr))';
+          deck.style.gap = '16px';
+          slides.forEach(s=>{
+            s.style.position='static';
+            s.style.opacity=1;
+            s.style.transform='none';
+            s.querySelector('.footer')?.remove();
+          });
+        } else {
+          location.reload();
+        }
+      }
+
+      function toggleBlackout(){
+        blackout = !blackout;
+        document.body.style.filter = blackout ? 'brightness(0)' : 'none';
+      }
+
+      // Keyboard navigation
       window.addEventListener('keydown', (e)=>{
         if(e.key==='ArrowRight' || e.key==='PageDown' || e.key===' '){ e.preventDefault(); show(i+1); }
         if(e.key==='ArrowLeft'  || e.key==='PageUp'){ e.preventDefault(); show(i-1); }
@@ -426,20 +566,28 @@
         if(e.key.toLowerCase()==='h'){ alert('Keys: ←/→ or Space to navigate, swipe on mobile, O overview, B blackout'); }
       });
 
-      // Swipe navigation for mobile
-      let touchStartX = null, touchStartY = null, touching = false;
-      const threshold = 50;
-      deck.addEventListener('touchstart', (e)=>{ const t = e.changedTouches[0]; touchStartX = t.clientX; touchStartY = t.clientY; touching = true; }, {passive:true});
-      deck.addEventListener('touchend', (e)=>{ if(!touching) return; touching = false; const t = e.changedTouches[0]; const dx = t.clientX - touchStartX; const dy = t.clientY - touchStartY; if(Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > threshold){ if(dx < 0) show(i+1); else show(i-1); } }, {passive:true}); show(i+1); }
-        if(e.key==='ArrowLeft'  || e.key==='PageUp'){ e.preventDefault(); show(i-1); }
-        if(e.key.toLowerCase()==='o'){ toggleOverview(); }
-        if(e.key.toLowerCase()==='b'){ toggleBlackout(); }
-        if(e.key.toLowerCase()==='h'){ alert('Keys: ←/→ or Space to navigate, O overview, B blackout'); }
-      });
+      // Click controls
       nextBtn?.addEventListener('click', ()=> show(i+1));
       prevBtn?.addEventListener('click', ()=> show(i-1));
       overviewBtn?.addEventListener('click', toggleOverview);
       blackoutBtn?.addEventListener('click', toggleBlackout);
+
+      // Swipe navigation (mobile)
+      let touchStartX = null, touchStartY = null, touching = false;
+      const threshold = 50; // px
+      deck.addEventListener('touchstart', (e)=>{
+        const t = e.changedTouches[0];
+        touchStartX = t.clientX; touchStartY = t.clientY; touching = true;
+      }, {passive:true});
+      deck.addEventListener('touchend', (e)=>{
+        if(!touching) return; touching = false;
+        const t = e.changedTouches[0];
+        const dx = t.clientX - touchStartX; const dy = t.clientY - touchStartY;
+        if(Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > threshold){
+          if(dx < 0) show(i+1); else show(i-1);
+        }
+      }, {passive:true});
+
       window.addEventListener('hashchange', fromHash);
       fromHash(); show(i);
     })();
