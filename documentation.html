@@ -371,46 +371,49 @@
       <div class="stage">
         <div class="card">
           <span class="kicker">Practice Chart</span>
-          <h2>Finding the Balance: Realistic Documentation</h2>
+<h2>Finding the Balance: Realistic Documentation</h2>
 
-          <p class="muted small">Scenario: 87-year-old female, shortness of breath ×3 days.</p>
+<p class="muted small">Scenario: 87-year-old female, shortness of breath ×3 days.</p>
 
-          <div class="grid-tiles">
-            <div class="tile">
-              <h3>Dispatch</h3>
-              <p class="mono small">EMS dispatched on 10/16/2025 to 123 Jefferson St for 87 y/o F with shortness of breath.</p>
-              <p class="muted small">(Dispatch address & date is logged elsewhere — no need to retype.)</p>
-            </div>
+<!-- Grid: system-captured fields -->
+<div class="grid-tiles">
+  <div class="tile">
+    <h3>Dispatch (System Entry)</h3>
+    <p class="mono small">EMS dispatched on 10/16/2025 to 123 Jefferson St for 87 y/o F with shortness of breath.</p>
+    <p class="muted small">(Address, date, and time are already logged automatically in CAD/ePCR.)</p>
+  </div>
 
-            <div class="tile">
-              <h3>Response</h3>
-              <p class="mono small">Responded emergent with lights & sirens.</p>
-              <p class="muted small">(Already captured by system timestamps.)</p>
-            </div>
-          </div>
+  <div class="tile">
+    <h3>Response (System Entry)</h3>
+    <p class="mono small">Responded emergent with lights & sirens.</p>
+    <p class="muted small">(Response priority and timestamps are recorded by the EHR.)</p>
+  </div>
+</div>
 
-            <h3>Dispatch</h3>
-              <p class="mono small">EMS dispatched for 87 y/o F with shortness of breath.</p>
-    
-          <h3>Complaint</h3>
-          <p class="mono small">On arrival, patient seated on couch in tripod position, reports SOB worsening over 3 days.</p>
+<!-- Normal flow: narrative -->
+<h3>Dispatch</h3>
+<p class="mono small">EMS dispatched for 87 y/o F with shortness of breath.</p>
 
-          <h3>Assessment</h3>
-          <p class="mono small">Airway patent, lung sounds present & equal bilaterally, respirations rapid/labored. HR strong & regular. Denies chest pain.</p>
+<h3>Complaint</h3>
+<p class="mono small">On arrival, patient seated on couch in tripod position, reports SOB worsening over 3 days.</p>
 
-           <h3>History</h3>
-          <p class="mono small">Pt reported hx of COPD & use a prescribed albuterol inhaler.</p>
+<h3>Assessment</h3>
+<p class="mono small">Airway patent, lung sounds present & equal bilaterally, respirations rapid/labored. HR strong & regular. Denies chest pain.</p>
 
-          <h3>Treatment</h3>
-          <p class="mono small">Hemodynamic monitoring, O₂ via NC @ 2 L/min → SpO₂ > 94%, 12-lead EKG, 20 g IV L AC (saline lock). Duoneb via neb mask. Improved WOB & RR following administration of Duoneb. Assisted pivot transfer, secured in semi-Fowler.</p>
+<h3>History</h3>
+<p class="mono small">Pt reported hx of COPD & uses a prescribed albuterol inhaler.</p>
 
-          <h3>Transport</h3>
-          <p class="mono small">Transported to JRMC, closest appropriate facility. Report sent via Pulsara PTA. No change en route.</p>
+<h3>Treatment</h3>
+<p class="mono small">Hemodynamic monitoring, O₂ via NC @ 2 L/min → SpO₂ > 94%, 12-lead EKG, 20 g IV L AC (saline lock). Duoneb via neb mask. Improved WOB & RR following administration of Duoneb. Assisted pivot transfer, secured in semi-Fowler.</p>
 
-          <h3>Destination</h3>
-          <p class="mono small">Transferred to ED stretcher, report given to RN at bedside.</p>
+<h3>Transport</h3>
+<p class="mono small">Transported to JRMC, closest appropriate facility. Report sent via Pulsara PTA. No change en route.</p>
 
-          <hr class="spacer" />
+<h3>Destination</h3>
+<p class="mono small">Transferred to ED stretcher, report given to RN at bedside.</p>
+
+<hr class="spacer" />
+
 
           <h3>Instructor Notes</h3>
           <ul class="small muted">
